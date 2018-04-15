@@ -2,26 +2,35 @@ const express = require('express');
  let  app = express();
 var bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-var db=require('./index.js')
-
+var db=require('../database-mongo/index.js')
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
  app.use(bodyParser.json());
 
 
- app.get('/Memo',function(req,res){
- 	res.send('om dar3a')
-
-
- });
  app.get("/",function(req,res){
   res.render('index')
  })
 
-app.post('/Memo',function(req,res){
-
+ app.get('/memos',function(req,res){
+ 	
+	db.selectAll(function(err, data){
+	if (err) {
+		res.sendStatus(500)
+	}else{
+		res.json(data);
+	}
+	})
  });
+
+app.post('/memos', function(req, res){
+	var x= req.body.memo
+	console.log("hhhhh",x)
+	db.save(x)
+	res.json(x)
+	
+})
 
 
 

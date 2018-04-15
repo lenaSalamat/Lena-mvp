@@ -12,21 +12,34 @@ db.once('open', function() {
 });
 
 var memoSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+ memo: String
 });
 
-var memo = mongoose.model('memo', memoSchema);
+var Memo = mongoose.model('Memo', memoSchema);
 
-var selectAll = function(callback) {
-  memo.find({}, function(err, items) {
+
+
+let save = (data) => {
+  
+  var memo= new Memo({memo:data})
+
+    memo.save(function(err, data){
+      if(err){
+      console.log(err); 
+      }else{
+    console.log(data)
+      }
+    })
+}
+
+let selectAll = (callback) => {
+  Memo.find({}, function(err, data) {
     if(err) {
       callback(err, null);
     } else {
-      callback(null, items);
+      callback(null,data);
     }
   });
 };
-
 module.exports.selectAll = selectAll;
-module.exports.memo=memo;
+module.exports.save=save

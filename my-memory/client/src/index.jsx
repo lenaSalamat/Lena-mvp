@@ -6,7 +6,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-       memo: ''
+       memo: '',
+       memos:[]
     }
         this.onChange=this.onChange.bind(this)
      this.search=this.search.bind(this)
@@ -18,21 +19,19 @@ class App extends React.Component {
     });
   }
 
-  search (term) {
+  search () {
     $.ajax({
       type: "POST",
-     url:"/Memo",
-     data: {data:term},
-     dataType: "JSON",
+     url:"/memos",
+     data:{memo:this.state.memo},
       success: function(data) { console.log("hey") }
     })
  }
 
   render () {
-  console.log(this.state.memo)
     return ( 
     <div>
-      <h4>memory of me</h4>
+      <h4>MY MEMORY MY HISTORY</h4>
      <input value={this.state.memo} onChange={this.onChange}/>       
       <button onClick={this.search}> Add memos </button>
     </div>
